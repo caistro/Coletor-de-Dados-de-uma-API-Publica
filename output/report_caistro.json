@@ -1,0 +1,15 @@
+{
+    "total_repos": 4,
+    "total_estrelas": 0,
+    "top_5_repos_por_estrela": {
+        "Coletor-de-dados-API-GitHub": 0,
+        "Coletor-de-dados-API-GitHub-main": 0,
+        "dio-lab-open-source": 0,
+        "Portal-Fomento": 0
+    },
+    "linguagem": {
+        "Python": 2,
+        "null": 1,
+        "HTML": 1
+    }
+}
