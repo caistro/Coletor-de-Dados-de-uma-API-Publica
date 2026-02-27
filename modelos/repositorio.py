@@ -8,25 +8,31 @@ class Repository:
         self.stargazers_count = stargazers_count
         self.forks_count = forks_count
         self.updated_at = updated_at
-
+    
+    def __str__(self):
+        return (
+            f'name: {self.name}\n'
+            f'full_name: {self.full_name}\n'
+            f'html_url: {self.html_url}\n'
+            f'language: {self.language}\n'
+            f'stargazers_count: {self.stargazers_count}\n'
+            f'forks_count: {self.forks_count}\n'
+            f'updated_at: {self.updated_at}')
+    
+    def __repr__(self):
+        return f'Repositorio: {self.name}'
 
     @classmethod
-    def factory(cls, response: dict):
-        for i in response:
-            name = i['name']
-            print(name)
-
-        return cls(
-            name = response[1].get('name'),
-            full_name = response[1].get('full_name'),
-            html_url = response[1].get('html_url'),
-            language = response[1].get('language'),
-            stargazers_count = response[1].get('stargazers_count'),
-            forks_count = response[1].get('forks_count'),
-            updated_at = response[1].get('updated_at')
+    def from_api(self, response: dict):
+        return self(
+            name = response.get('name'),
+            full_name = response.get('full_name'),
+            html_url = response.get('html_url'),
+            language = response.get('language'),
+            stargazers_count = response.get('stargazers_count'),
+            forks_count = response.get('forks_count'),
+            updated_at = response.get('updated_at')
         )
     
-    def from_api():
-        pass
-    
+
 

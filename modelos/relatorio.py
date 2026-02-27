@@ -1,57 +1,50 @@
 class ReportService:
     dados_calculados = dict()
 
-    def relatorio(self, repos: dict) -> dict:
+    def relatorio(self, repos: list[dict]) -> dict:
         self.total_repos(repos)
         self.total_estrelas(repos)
         self.top_5_repos_por_estrela(repos)
         self.linguagem(repos)
         return self.dados_calculados
     
-    def total_repos(self, repos: dict) -> dict:
+    def total_repos(self, repos: list[dict]) -> dict:
         self.dados_calculados.update({f'total_repos': len(repos)})
         print(f'Coletados {len(repos)} repositórios')
         return self.dados_calculados
     
-    def total_estrelas(self, repos: dict) -> dict:
+    def total_estrelas(self, repos: list[dict]) -> dict:
         total = int()
-        for i in repos:
-            total += repos[i]['stargazers_count']
+        for repo in repos:
+            total += repo.stargazers_count
         self.dados_calculados.update({f'total_estrelas': total})
         print(f'Relatório gerado com total de {total} estrelas')
         return self.dados_calculados
     
-    def top_5_repos_por_estrela(self, repos: dict) -> dict:
-        top_estrelas = list()
-        top_repos = dict()  
+    def top_5_repos_por_estrela(self, repos: list[dict]) -> dict:
+        top_repos = dict()
+
+        for repo in repos:
+            top_repos.update({repo.name: repo.stargazers_count})
+        ordenado = sorted(top_repos.items(), key=lambda x: x[1], reverse=True)
+
+        for item in ordenado[:5]:
+            self.dados_calculados.update({item[0]:item[1]})
         
-        # lista em ordem decrecente os repos por estrela
-        for item in repos:
-            top_estrelas.append(repos[item]['stargazers_count'])
-            top_estrelas.sort(reverse=True)          
-
-        # atribui o nome do repo como chave do dicionario, mantendo a ordem decrecente
-        for item in repos:
-            top_repos.update({repos[item]['name']: top_estrelas[item]})
-            if len(top_repos) == 5:
-                break
-
-        self.dados_calculados.update({f'top_5_repos_por_estrela': top_repos})
         return self.dados_calculados
     
-    def linguagem(self, repos: dict) -> dict:
-        linguagens = list()
+    def linguagem(self, repos: list[dict]) -> dict:
         linguagens_total = dict()
         
-        #filtra as linguagens utilizadas
-        for item in repos:
-            #print(repos[item]['language'])
-            linguagens.append(repos[item]['language'])
-            
-        #conta as linguagens utilizadas mantendo o nome da linguagem como chave
-        for item in linguagens:
-            linguagens_total.update({item: linguagens.count(item)})
-        
-        self.dados_calculados.update({f'linguagem': linguagens_total})
+        for repo in repos:
+            if repo.language not in linguagens_total:
+                linguagens_total.update({repo.language: 1})
+            else:
+                linguagens_total[repo.language] += 1
+        for item in linguagens_total.items():
+            if item[0] == None:
+                self.dados_calculados.update({'Desconhecido': item[1]})
+            else:
+                self.dados_calculados.update({item[0]: item[1]})
         return self.dados_calculados
-
+            
