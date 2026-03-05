@@ -17,16 +17,16 @@ if username == None:
 if output == None:
     output = './output/'
 
-repos = GitHubClient().get_repos(username)
-# repositorios = Repository.from_api(repos)
-relatorio = ReportService().relatorio(repos)
-salvar_repositorio = FileStorage.salvar_repos(repos, username, output)
-salvar_relatorio = FileStorage.salvar_report(relatorio, username, output)
+chamada = GitHubClient.get_repos(username)
+repositorios = [Repository.from_api(repo) for repo in chamada]
+# relatorio = ReportService().relatorio(repos)
+# salvar_repositorio = FileStorage.salvar_repos(repos, username, output)
+# salvar_relatorio = FileStorage.salvar_report(relatorio, username, output)
 
 
 ''' Testar a instância de cada classe''' 
-#print(repos)
-# print(repositorios)
+# print(chamada)
+print(repositorios)
 #print(relatorio)
 
 
