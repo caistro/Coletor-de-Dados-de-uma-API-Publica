@@ -10,7 +10,6 @@ class ReportService:
     
     def total_repos(self, repos: list[dict]) -> dict:
         self.dados_calculados.update({f'total_repos': len(repos)})
-        print(f'Coletados {len(repos)} repositórios')
         return self.dados_calculados
     
     def total_estrelas(self, repos: list[dict]) -> dict:

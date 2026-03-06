@@ -1,33 +1,36 @@
 import argparse
+from modelos.args_cli import ArgumentosCLI
 from modelos.chamada_api import GitHubClient
 from modelos.repositorio import Repository
 from modelos.relatorio import ReportService
 from modelos.arquivo import FileStorage
 
-'''Verifica os argumentos passados via CLI, se não houver o username é inserido via input e o output é setado em ./output/'''
-parser = argparse.ArgumentParser(description='Coletor de dados da API do GitHub')
-parser.add_argument('--username', type=str, help='Nome do usuário no GitHub')
-parser.add_argument('--out', type=str, help='Diretório de salvamento dos arquivos')
-args = parser.parse_args()
-username = args.username
-output = args.out
+'''
+Usernames de teste
+Torvalds: padrão
+ç: Não existe
+kakaka: Não tem repositorios 
+'''
+param = ArgumentosCLI()
 
-if username == None:
-    username = input(str('Digite o nome do usuário do GitHub: '))
-if output == None:
-    output = './output/'
+try:
+    chamada = GitHubClient.get_repos(param.username)
+    iter(chamada)
+except Exception as e:
+    exit()
 
-chamada = GitHubClient.get_repos(username)
+
 repositorios = [Repository.from_api(repo) for repo in chamada]
-# relatorio = ReportService().relatorio(repos)
-# salvar_repositorio = FileStorage.salvar_repos(repos, username, output)
-# salvar_relatorio = FileStorage.salvar_report(relatorio, username, output)
+relatorio = ReportService().relatorio(repositorios)
+salvar_repositorio = FileStorage.salvar_repos(repositorios, param.username, param.output)
+salvar_relatorio = FileStorage.salvar_report(relatorio, param.username, param.output)
 
 
-''' Testar a instância de cada classe''' 
-# print(chamada)
-print(repositorios)
-#print(relatorio)
+''' Testar a instância de cada classe'''
+# print(chamada) 
+# print(repositorios)
+# print(relatorio)
+
 
 
 

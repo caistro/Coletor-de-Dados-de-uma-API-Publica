@@ -23,15 +23,15 @@ class Repository:
         return f'Repositorio: {self.name}'
 
     @classmethod
-    def from_api(cls, data: dict):
+    def from_api(cls, repo: dict):
         return cls(
-            name = data.get('name'),
-            full_name = data.get('full_name'),
-            html_url = data.get('html_url'),
-            language = data.get('language'),
-            stargazers_count = data.get('stargazers_count'),
-            forks_count = data.get('forks_count'),
-            updated_at = data.get('updated_at')
+            name = repo.get('name'),
+            full_name = repo.get('full_name'),
+            html_url = repo.get('html_url'),
+            language = repo.get('language'),
+            stargazers_count = repo.get('stargazers_count'),
+            forks_count = repo.get('forks_count'),
+            updated_at = repo.get('updated_at')
         )
     
 

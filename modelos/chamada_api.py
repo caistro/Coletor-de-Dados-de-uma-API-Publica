@@ -1,11 +1,11 @@
 import requests
 
-# token = ''
-# headers = {
-#     'Authorization': '{token}'
-# }
+token = ''
+headers = {
+    'Authorization': '{token}'
+}
 
-class GitHubClient:  
+class GitHubClient:
     base_url = f'https://api.github.com/users/'
 
     @classmethod
@@ -13,26 +13,29 @@ class GitHubClient:
         try:
             response = requests.get(f'{cls.base_url}{username}/repos', timeout=10)
             response.raise_for_status()
-            # return [Repository.from_api(repo) for repo in response.json()]
+            print(f'Status da requisição: {response.status_code}')
+            print(f'Respositórios coletados: {len(response.json())}')
             return response.json()
 
         except requests.exceptions.HTTPError as e:
             status = e.response.status_code
             if status == 404:
-                return (f'Usuário {username} não encontrado')
+                return print(f'Usuário "{username}" não encontrado')
             elif status == 403:
-                return ('Limite de requisições atingido ou acesso proibido')
+                return print('Limite de requisições atingido ou acesso proibido')
+            elif status == 401:
+                return print('Acesso não autorizado')
             else:
-                return (f'Erro: {e}')
+                return print(f'Erro: {e}')
             
         except requests.exceptions.Timeout as e:
-            return ('A requisição demorou muito para responder')
+            return print('A requisição demorou muito para responder')
         
         except requests.ConnectionError as e:
-            return (f'Erro de conexão: {e}') 
+            return print(f'Erro de conexão: {e}') 
             
         except requests.exceptions.RequestException as e:
-            return (f'Erro: {e}')
+            return print(f'Erro: {e}')
                     
             
             
