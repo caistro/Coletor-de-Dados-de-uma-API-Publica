@@ -15,6 +15,8 @@ class GitHubClient:
             response.raise_for_status()
             print(f'Status da requisição: {response.status_code}')
             print(f'Respositórios coletados: {len(response.json())}')
+            if len(response.json()) == 0:
+                return exit()
             return response.json()
 
         except requests.exceptions.HTTPError as e:
