@@ -19,8 +19,28 @@ class FileStorage:
         pasta_saida = Path(output)
         pasta_saida.mkdir(exist_ok=True, parents=True)
         nome_do_arquivo = f'{pasta_saida}/report_{username}.csv'
-        
+
+        def flatten_dict(dicionario, parent_key='', sep='/'):
+            """
+            Transforma um dicionário aninhado em um dicionário de nível único,
+            concatenando as chaves com o separador definido.
+            """
+            items = []
+            for k, v in dicionario.items():
+                new_key = f"{parent_key}{sep}{k}" if parent_key else k
+                if isinstance(v, dict):
+                    items.extend(flatten_dict(v, new_key, sep=sep).items())
+                else:
+                    items.append((new_key, v))
+            return dict(items)
+        data = flatten_dict(report)
+        print(data)
+                    
         with open(nome_do_arquivo, 'w', newline='', encoding='utf-8') as relatorio:
-            writer = csv.writer(relatorio)
-            writer.writerows(report.items())
+            writer = csv.DictWriter(relatorio, fieldnames=data.keys())
+            writer.writeheader()
+            writer.writerow(data)
         print(f'Arquivo de relatórios salvo em: /{pasta_saida}...')
+
+
+

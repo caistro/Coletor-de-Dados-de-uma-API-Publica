@@ -1,6 +1,8 @@
 class ReportService:
-    dados_calculados = dict()
 
+    def __init__(self):
+        self.dados_calculados = dict()
+        
     def relatorio(self, repos: list[dict]) -> dict:
         self.total_repos(repos)
         self.total_estrelas(repos)
@@ -13,25 +15,26 @@ class ReportService:
         return self.dados_calculados
     
     def total_estrelas(self, repos: list[dict]) -> dict:
-        total = int()
-        for repo in repos:
-            total += repo.stargazers_count
+        total = sum(repo.stargazers_count for repo in repos)
         self.dados_calculados.update({f'total_estrelas': total})
         print(f'Relatório gerado com total de {total} estrelas')
         return self.dados_calculados
     
     def top_5_repos_por_estrela(self, repos: list[dict]) -> dict:
+        repos_estrela = dict()
         top_repos = dict()
 
         for repo in repos:
-            top_repos.update({repo.name: repo.stargazers_count})
-        ordenado = sorted(top_repos.items(), key=lambda x: x[1], reverse=True)
+            repos_estrela.update({repo.name:repo.stargazers_count})
 
-        for item in ordenado[:5]:
-            self.dados_calculados.update({item[0]:item[1]})
+        ordenado = sorted(repos_estrela.items(), key=lambda x: x[1], reverse=True)[:5]
+
+        for repo in ordenado:
+            top_repos.update({repo[0]:repo[1]})
         
+        self.dados_calculados.update({f'top_5_repos_por_estrela': top_repos})
         return self.dados_calculados
-    
+                
     def linguagem(self, repos: list[dict]) -> dict:
         linguagens_total = dict()
         
@@ -40,10 +43,18 @@ class ReportService:
                 linguagens_total.update({repo.language: 1})
             else:
                 linguagens_total[repo.language] += 1
-        for item in linguagens_total.items():
-            if item[0] == None:
-                self.dados_calculados.update({'Desconhecido': item[1]})
-            else:
-                self.dados_calculados.update({item[0]: item[1]})
+        if None in linguagens_total.keys():
+            linguagens_total['Desconhecido'] = linguagens_total.pop(None)
+
+        self.dados_calculados.update({f'Linguagens': linguagens_total})
         return self.dados_calculados
+
+        # print(linguagens_total)
+
+        # for item in linguagens_total.items():
+        #     if item[0] == None:
+        #         self.dados_calculados.update({'Desconhecido': item[1]})
+        #     else:
+        #         self.dados_calculados.update({item[0]: item[1]})
+        # return self.dados_calculados
             

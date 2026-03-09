@@ -1,10 +1,2 @@
-total_repos,11
-total_estrelas,232707
-linux,221200
-AudioNoise,4271
-uemacs,1923
-GuitarPedal,1801
-test-tlb,951
-OpenSCAD,1
-C,9
-C++,1
+total_repos,total_estrelas,top_5_repos_por_estrela/linux,top_5_repos_por_estrela/AudioNoise,top_5_repos_por_estrela/uemacs,top_5_repos_por_estrela/GuitarPedal,top_5_repos_por_estrela/test-tlb,Linguagens/OpenSCAD,Linguagens/C,Linguagens/C++
+11,233271,221752,4279,1925,1806,951,1,9,1
