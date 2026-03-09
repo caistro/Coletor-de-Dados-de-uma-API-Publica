@@ -25,8 +25,8 @@ salvar_relatorio = FileStorage.salvar_report(relatorio, param.username, param.ou
 
 
 ''' Testar a instância de cada classe'''
-# print(chamada) 
-# print(repositorios)
+# print(repos_api) 
+# print(repos_filtrados)
 # print(relatorio)
 
 

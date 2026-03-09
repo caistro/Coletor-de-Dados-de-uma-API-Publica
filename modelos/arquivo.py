@@ -34,7 +34,6 @@ class FileStorage:
                     items.append((new_key, v))
             return dict(items)
         data = flatten_dict(report)
-        print(data)
                     
         with open(nome_do_arquivo, 'w', newline='', encoding='utf-8') as relatorio:
             writer = csv.DictWriter(relatorio, fieldnames=data.keys())
