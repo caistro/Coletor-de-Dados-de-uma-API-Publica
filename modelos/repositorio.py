@@ -1,3 +1,6 @@
+from typing import Self
+
+
 class Repository:
 
     def __init__(self, name, full_name, html_url, language, stargazers_count, forks_count, updated_at):
@@ -23,8 +26,8 @@ class Repository:
         return f'Repositorio: {self.name}'
 
     @classmethod
-    def from_api(cls, repo: dict):
-        return cls(
+    def from_api(cls, repo: dict) -> Self:
+        return Repository(
             name = repo.get('name'),
             full_name = repo.get('full_name'),
             html_url = repo.get('html_url'),

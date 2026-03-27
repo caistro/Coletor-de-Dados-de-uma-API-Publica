@@ -38,6 +38,9 @@ class GitHubClient:
             
         except requests.exceptions.RequestException as e:
             return print(f'Erro: {e}')
+        
+        except Exception as e:
+            return print(f'Erro: {e}')
                     
             
             
